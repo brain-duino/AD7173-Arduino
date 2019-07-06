@@ -204,6 +204,12 @@ typedef enum {
 	REF_ENABLE = 0x01
 } ref_mode_t;
 
+/* ADC channel buffer setting */
+typedef enum {
+	AIN_BUF_DISABLE = 0x00,
+	AIN_BUF_ENABLE = 0x03
+} ain_buf_mode_t;
+
 /* ADC data ready indicator */
 #define DATA_READY digitalRead(MISO) == LOW
 
@@ -303,10 +309,11 @@ public:
 	sets the ADC setups coding mode
 	@param byte - setup register
 	@param condig_mode_t - coding mode
+	@param ain_buf_t - analog input buffer
 	@return int - error code
 	==================================
 	*/
-	int set_setup_config(adc7173_register_t, coding_mode_t);
+	int set_setup_config(adc7173_register_t, coding_mode_t, ain_buf_mode_t);
 
 	/*
 	==========================================

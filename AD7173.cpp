@@ -228,12 +228,12 @@ int AD7173Class::set_channel_config(adc7173_register_t channel, bool enable, adc
 	return 0;
 }
 
-int AD7173Class::set_setup_config(adc7173_register_t setup, coding_mode_t coding_mode) {
+int AD7173Class::set_setup_config(adc7173_register_t setup, coding_mode_t coding_mode, ain_buf_mode_t ain_buf_mode) {
 	/* Address Range: 0x20 to 0x27, Reset: 0x1000, Name: SETUPCON0 to SETUPCON7 */
 
 	/* prepare the configuration value */
 	byte value[2] = {0x00, 0x00};
-	value[0] = (coding_mode << 4);
+	value[0] = (coding_mode << 4) | ain_buf_mode;
 	value[1] = 0x00;
 
 	/* update the configuration value */
