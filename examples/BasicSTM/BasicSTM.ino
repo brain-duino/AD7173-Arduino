@@ -40,7 +40,7 @@ void setup() {
 	/* set the ADC SETUP0 coding mode to BIPLOAR output */
 	/* SETUP0 - SETUP7 */
 	/* BIPOLAR, UNIPOLAR */
-	AD7173.set_setup_config(SETUP0, UNIPOLAR);
+	AD7173.set_setup_config(SETUP0, UNIPOLAR, AIN_BUF_ENABLE);
 
 	/* set ADC OFFSET0 offset value */
 	/* OFFSET0 - OFFSET7 */
