@@ -210,6 +210,20 @@ typedef enum {
 	AIN_BUF_ENABLE = 0x03
 } ain_buf_mode_t;
 
+/* setup to select reference source */
+/*
+	00 External reference source
+	01 AIN1/REF2+ and AIN0/REF2−
+	10 Internal reference source
+	11 External AVDD1 – AVSS
+*/
+typedef enum {
+	REF_EXT = 0x00,
+	REF_AIN = 0x01,
+	REF_INT = 0x02,
+	REF_PWR = 0x03
+} setup_ref_source_t;
+
 /* ADC data ready indicator */
 #define DATA_READY digitalRead(MISO) == LOW
 
@@ -313,7 +327,7 @@ public:
 	@return int - error code
 	==================================
 	*/
-	int set_setup_config(adc7173_register_t, coding_mode_t, ain_buf_mode_t);
+	int set_setup_config(adc7173_register_t, coding_mode_t, ain_buf_mode_t, setup_ref_source_t);
 
 	/*
 	==========================================
