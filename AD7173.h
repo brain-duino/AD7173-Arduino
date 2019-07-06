@@ -198,6 +198,12 @@ typedef enum {
 	EXTERNAL_CRYSTAL = 0x03
 } clock_mode_t;
 
+/* ADC internal reference modes */
+typedef enum {
+	REF_DISABLE = 0x00,
+	REF_ENABLE = 0x01
+} ref_mode_t;
+
 /* ADC data ready indicator */
 #define DATA_READY digitalRead(MISO) == LOW
 
@@ -251,7 +257,7 @@ public:
 	@return int - error code
 	================================
 	*/
-	int set_adc_mode_config(data_mode_t, clock_mode_t);
+	int set_adc_mode_config(data_mode_t, clock_mode_t, ref_mode_t);
 
 	/*
 	==================================================
@@ -265,10 +271,11 @@ public:
 	/*
 	==========================================
 	gets the ADC conversion result
+	@param bool - if need to read STATUS register
 	@return byte[] - the ADC conversion result
 	==========================================
 	*/
-	int get_data(byte *);
+	int get_data(byte *, bool);
 
 	/*
 	============================================
