@@ -4,12 +4,12 @@ example to configure and get data from AD7173 ADC
 =================================================
 */
 #include <AD7173.h>
-#define ENABLED_CH 3
+#define ENABLED_CH 3 //number of channel
 
 void setup() {
 	afio_cfg_debug_ports(AFIO_DEBUG_NONE);// Stop the debug function
 	pinMode(PA4, OUTPUT);
-	digitalWrite(PA4,LOW);
+	digitalWrite(PA4,LOW);// enable device
 
 	/* initiate serial communication */
 	Serial.begin(230400);
@@ -33,14 +33,15 @@ void setup() {
 	/* true/false to enable/disable channel */
 	/* SETUP0 - SETUP7 */
 	/* AIN0 - AIN16 */
-	AD7173.set_channel_config(CH0, true, SETUP0, AIN2, REF_NEG);
-	AD7173.set_channel_config(CH1, true, SETUP0, AIN3, REF_NEG);
-	AD7173.set_channel_config(CH3, true, SETUP0, AIN4, REF_NEG);
+	// AIN16 is connected to GND 
+	AD7173.set_channel_config(CH0, true, SETUP0, AIN2, AIN16);
+	AD7173.set_channel_config(CH1, true, SETUP0, AIN3, AIN16);
+	AD7173.set_channel_config(CH3, true, SETUP0, AIN4, AIN16);
 
 	/* set the ADC SETUP0 coding mode to BIPLOAR output */
 	/* SETUP0 - SETUP7 */
 	/* BIPOLAR, UNIPOLAR */
-	AD7173.set_setup_config(SETUP0, UNIPOLAR, AIN_BUF_ENABLE);
+	AD7173.set_setup_config(SETUP0, UNIPOLAR, AIN_BUF_ENABLE, REF_INT);
 
 	/* set ADC OFFSET0 offset value */
 	/* OFFSET0 - OFFSET7 */
