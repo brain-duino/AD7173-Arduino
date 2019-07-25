@@ -66,6 +66,7 @@ void setup() {
 	/* enable/disable CONTINUOUS_READ_MODE and appending STATUS register to data */
 	/* to exit CONTINUOUS_READ_MODE use AD7173.reset(); */
 	/* AD7173.reset(); returns all registers to default state, so everything has to be setup again */
+	/* true / false to enable / disable appending status register to data, 4th byte */
 	AD7173.set_interface_mode_config(false, true);
 
 	/* wait for ADC */
