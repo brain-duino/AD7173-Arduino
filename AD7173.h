@@ -352,6 +352,9 @@ public:
 private:
 	/* ADC data mode */
 	data_mode_t m_data_mode;
+	
+	/* Append status register to data */
+	bool append_status_reg;
 
 	/*
 	===========================
