@@ -198,6 +198,32 @@ typedef enum {
 	EXTERNAL_CRYSTAL = 0x03
 } clock_mode_t;
 
+/* ADC internal reference modes */
+typedef enum {
+	REF_DISABLE = 0x00,
+	REF_ENABLE = 0x01
+} ref_mode_t;
+
+/* ADC channel buffer setting */
+typedef enum {
+	AIN_BUF_DISABLE = 0x00,
+	AIN_BUF_ENABLE = 0x03
+} ain_buf_mode_t;
+
+/* setup to select reference source */
+/*
+	00 External reference source
+	01 AIN1/REF2+ and AIN0/REF2−
+	10 Internal reference source
+	11 External AVDD1 – AVSS
+*/
+typedef enum {
+	REF_EXT = 0x00,
+	REF_AIN = 0x01,
+	REF_INT = 0x02,
+	REF_PWR = 0x03
+} setup_ref_source_t;
+
 /* ADC data ready indicator */
 #define DATA_READY digitalRead(MISO) == LOW
 
@@ -251,7 +277,7 @@ public:
 	@return int - error code
 	================================
 	*/
-	int set_adc_mode_config(data_mode_t, clock_mode_t);
+	int set_adc_mode_config(data_mode_t, clock_mode_t, ref_mode_t);
 
 	/*
 	==================================================
@@ -265,10 +291,11 @@ public:
 	/*
 	==========================================
 	gets the ADC conversion result
+	@param bool - if need to read STATUS register
 	@return byte[] - the ADC conversion result
 	==========================================
 	*/
-	int get_data(byte *);
+	int get_data(byte *, bool);
 
 	/*
 	============================================
@@ -296,10 +323,11 @@ public:
 	sets the ADC setups coding mode
 	@param byte - setup register
 	@param condig_mode_t - coding mode
+	@param ain_buf_t - analog input buffer
 	@return int - error code
 	==================================
 	*/
-	int set_setup_config(adc7173_register_t, coding_mode_t);
+	int set_setup_config(adc7173_register_t, coding_mode_t, ain_buf_mode_t, setup_ref_source_t);
 
 	/*
 	==========================================

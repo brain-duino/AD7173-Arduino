@@ -104,13 +104,14 @@ int AD7173Class::get_current_data_channel(adc7173_register_t &channel) {
 	return 0;
 }
 
-int AD7173Class::set_adc_mode_config(data_mode_t data_mode, clock_mode_t clock_mode) {
+int AD7173Class::set_adc_mode_config(data_mode_t data_mode, clock_mode_t clock_mode, ref_mode_t ref_mode) {
 	/* Address: 0x01, Reset: 0x2000, Name: ADCMODE */
 
 	/* prepare the configuration value */
 	/* REF_EN [15], RESERVED [14], SING_CYC [13], RESERVED [12:11], DELAY [10:8], RESERVED [7], MODE [6:4], CLOCKSEL [3:2], RESERED [1:0] */
 	byte value[2] = {0x00, 0x00};
 	value[1] = (data_mode << 4) | (clock_mode << 2);
+	value[0] = (ref_mode << 7);
 
 	/* update the configuration value */
 	this->set_register(ADCMODE_REG, value, 2);
@@ -146,7 +147,7 @@ int AD7173Class::set_interface_mode_config(bool continuous_read, bool append_sta
 	return 0;
 }
 
-int AD7173Class::get_data(byte *value) {
+int AD7173Class::get_data(byte *value, bool append_status_reg) {
 	/* Address: 0x04, Reset: 0x000000, Name: DATA */
 
 	/* when not in continuous read mode, send the read command */
@@ -160,13 +161,21 @@ int AD7173Class::get_data(byte *value) {
 	value[0] = SPI.transfer(0x00);
 	value[1] = SPI.transfer(0x00);
 	value[2] = SPI.transfer(0x00);
-
+	/* when need to read STATUS register */
+	if (append_status_reg) {
+		value[3] = SPI.transfer(0x00);
+	}
+	
 	/* when debug enabled */
 	if (DEBUG_ENABLED) {
 		Serial.print("get_data: read [ ");
 		this->print_byte(value[0]);
 		this->print_byte(value[1]);
 		this->print_byte(value[2]);
+		/* when need to read STATUS register */
+		if (append_status_reg) {
+			this->print_byte(value[3]);;
+		}
 		Serial.println("] from reg [ 0x04 ]");
 	}
 	/* return error code */
@@ -219,13 +228,13 @@ int AD7173Class::set_channel_config(adc7173_register_t channel, bool enable, adc
 	return 0;
 }
 
-int AD7173Class::set_setup_config(adc7173_register_t setup, coding_mode_t coding_mode) {
+int AD7173Class::set_setup_config(adc7173_register_t setup, coding_mode_t coding_mode, ain_buf_mode_t ain_buf_mode, setup_ref_source_t setup_ref_source) {
 	/* Address Range: 0x20 to 0x27, Reset: 0x1000, Name: SETUPCON0 to SETUPCON7 */
 
 	/* prepare the configuration value */
 	byte value[2] = {0x00, 0x00};
-	value[0] = (coding_mode << 4);
-	value[1] = 0x00;
+	value[0] = (coding_mode << 4) | ain_buf_mode;
+	value[1] = (setup_ref_source << 4);
 
 	/* update the configuration value */
 	this->set_register(setup, value, 2);
