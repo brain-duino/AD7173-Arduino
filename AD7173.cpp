@@ -143,11 +143,14 @@ int AD7173Class::set_interface_mode_config(bool continuous_read, bool append_sta
 		this->m_data_mode = CONTINUOUS_READ_MODE;
 	}
 
+	/* enable or disable appending status reg to data */
+	this->append_status_reg = append_status_reg;
+
 	/* return error code */
 	return 0;
 }
 
-int AD7173Class::get_data(byte *value, bool append_status_reg) {
+int AD7173Class::get_data(byte *value) {
 	/* Address: 0x04, Reset: 0x000000, Name: DATA */
 
 	/* when not in continuous read mode, send the read command */
@@ -161,8 +164,8 @@ int AD7173Class::get_data(byte *value, bool append_status_reg) {
 	value[0] = SPI.transfer(0x00);
 	value[1] = SPI.transfer(0x00);
 	value[2] = SPI.transfer(0x00);
-	/* when need to read STATUS register */
-	if (append_status_reg) {
+	/* when status register appending is enabled */
+	if (this->append_status_reg) {
 		value[3] = SPI.transfer(0x00);
 	}
 	
@@ -172,8 +175,8 @@ int AD7173Class::get_data(byte *value, bool append_status_reg) {
 		this->print_byte(value[0]);
 		this->print_byte(value[1]);
 		this->print_byte(value[2]);
-		/* when need to read STATUS register */
-		if (append_status_reg) {
+		/* when status register appending is enabled */
+		if (this->append_status_reg) {
 			this->print_byte(value[3]);;
 		}
 		Serial.println("] from reg [ 0x04 ]");
