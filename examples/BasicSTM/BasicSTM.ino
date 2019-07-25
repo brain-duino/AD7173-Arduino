@@ -41,6 +41,8 @@ void setup() {
 	/* set the ADC SETUP0 coding mode to BIPLOAR output */
 	/* SETUP0 - SETUP7 */
 	/* BIPOLAR, UNIPOLAR */
+	/* AIN_BUF_DISABLE, AIN_BUF_ENABLE */
+	/* REF_EXT, REF_AIN, REF_INT, REF_PWR */
 	AD7173.set_setup_config(SETUP0, UNIPOLAR, AIN_BUF_ENABLE, REF_INT);
 
 	/* set ADC OFFSET0 offset value */
@@ -58,6 +60,7 @@ void setup() {
 	/* in SINGLE_CONVERSION_MODE after all setup channels are sampled the ADC goes into STANDBY_MODE */
 	/* to exit STANDBY_MODE use this same function to go into CONTINUOUS or SINGLE_CONVERSION_MODE */
 	/* INTERNAL_CLOCK, INTERNAL_CLOCK_OUTPUT, EXTERNAL_CLOCK_INPUT, EXTERNAL_CRYSTAL */
+	/* REF_DISABLE, REF_ENABLE */
 	AD7173.set_adc_mode_config(CONTINUOUS_CONVERSION_MODE, INTERNAL_CLOCK, REF_ENABLE);
 
 	/* enable/disable CONTINUOUS_READ_MODE and appending STATUS register to data */
