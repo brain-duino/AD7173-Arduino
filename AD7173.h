@@ -236,7 +236,7 @@ public:
 	set default ADC data conversion mode
 	=====================================
 	*/
-	AD7173Class() : m_data_mode(CONTINUOUS_CONVERSION_MODE) {
+	AD7173Class() : m_data_mode(CONTINUOUS_CONVERSION_MODE), append_status_reg(false) {
 		/* ... */
 	}
 
