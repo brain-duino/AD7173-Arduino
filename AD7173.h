@@ -291,11 +291,10 @@ public:
 	/*
 	==========================================
 	gets the ADC conversion result
-	@param bool - if need to read STATUS register
 	@return byte[] - the ADC conversion result
 	==========================================
 	*/
-	int get_data(byte *, bool);
+	int get_data(byte *);
 
 	/*
 	============================================
