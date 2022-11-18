@@ -1,4 +1,6 @@
 # AD7173-Arduino
+[![Compile Examples](https://github.com/brain-duino/AD7173-Arduino/workflows/Compile%20Examples/badge.svg)](https://github.com/brain-duino/AD7173-Arduino/actions?workflow=Compile+Examples)
+
 Analog Devices AD7173 analog digital converter Arduino library
 
 Mostly tested setup for this library:
